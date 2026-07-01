@@ -34,8 +34,8 @@ async function readRedis(): Promise<AppData> {
   try {
     const { Redis } = await import('@upstash/redis')
     const redis = new Redis({
-      url: process.env.KV_REST_API_URL!,
-      token: process.env.KV_REST_API_TOKEN!,
+      url: process.env.LAGERUNG_URL ?? process.env.KV_REST_API_URL!,
+      token: process.env.LAGERUNG_REST_TOKEN ?? process.env.KV_REST_API_TOKEN!,
     })
     const data = await redis.get<AppData>('euer-app-data')
     return data ? { ...defaultData, ...data } : defaultData
@@ -47,8 +47,8 @@ async function readRedis(): Promise<AppData> {
 async function writeRedis(data: AppData): Promise<void> {
   const { Redis } = await import('@upstash/redis')
   const redis = new Redis({
-    url: process.env.KV_REST_API_URL!,
-    token: process.env.KV_REST_API_TOKEN!,
+    url: process.env.LAGERUNG_URL ?? process.env.KV_REST_API_URL!,
+    token: process.env.LAGERUNG_REST_TOKEN ?? process.env.KV_REST_API_TOKEN!,
   })
   await redis.set('euer-app-data', data)
 }
